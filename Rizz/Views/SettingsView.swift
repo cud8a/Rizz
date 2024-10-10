@@ -48,8 +48,10 @@ struct SettingsView: View {
                     showingSheetSearch.toggle()
                 }
                 
-                Button("Debug Log") {
-                    showingSheetDebugLog.toggle()
+                Section("Debug") {
+                    Button("Log anzeigen") {
+                        showingSheetDebugLog.toggle()
+                    }
                 }
             }
             .sheet(isPresented: $showingSheetSearch) {
@@ -64,28 +66,6 @@ struct SettingsView: View {
         .onChange(of: isPresented) { _, isPresented in
             if isPresented == false, locations != viewModel.locations {
                 viewModel.update(locations: locations)
-            }
-        }
-    }
-}
-
-struct SheetViewDebugLog: View {
-    
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        VStack {
-            Button {
-                dismiss()
-            } label: {
-                Text("Schließen")
-                    .foregroundStyle(.blue)
-            }
-            .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
-            .pinRight()
-            
-            ScrollView {
-                Text(DebugLog.log)
             }
         }
     }
@@ -206,6 +186,28 @@ struct SheetViewSearch: View {
             }
             .frame(maxHeight: .infinity)
             .navigationBarTitle("Ort hinzufügen")
+        }
+    }
+}
+
+struct SheetViewDebugLog: View {
+    
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack {
+            Button {
+                dismiss()
+            } label: {
+                Text("Schließen")
+                    .foregroundStyle(.blue)
+            }
+            .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
+            .pinRight()
+            
+            ScrollView {
+                Text(DebugLog.log)
+            }
         }
     }
 }
