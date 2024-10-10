@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import Bagel
 
 @main
 struct RizzApp: App {
+    
+    private let viewModel = ViewModel()
+    
+    init() {
+#if targetEnvironment(simulator)
+        Bagel.start()
+#endif
+        Task { [weak viewModel] in
+            await viewModel?.load()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(viewModel)
         }
     }
 }
